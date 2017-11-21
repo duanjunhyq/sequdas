@@ -43,25 +43,25 @@ def main(argv):
     if(step_id==1):
         run_machine_QC(input_dir,out_dir)
         copy_reporter(out_dir,run_folder_name)
-#        if run_style is True:
-#            step_id=step_id+1
-#    if(step_id==2):
-#        run_fastqc(input_dir,out_dir)
-#        copy_reporter(out_dir,run_folder_name)
-#        if run_style is True:
-#            step_id=step_id+1
-#    if(step_id==3):
-#        run_multiQC(input_dir,out_dir)
-#        copy_reporter(out_dir,run_folder_name)
-#        if run_style is True:
-#            step_id=step_id+1            
-#    if(step_id==4):
-#        run_kraken(input_dir,out_dir,keep_kraken)
-#        copy_reporter(out_dir,run_folder_name)
-#        if run_style is True:
-#            step_id=step_id+1
-#    if(step_id==5):
-#        Upload_to_Irida(input_dir)
+        if run_style is True:
+            step_id=step_id+1
+    if(step_id==2):
+        run_fastqc(input_dir,out_dir)
+        copy_reporter(out_dir,run_folder_name)
+        if run_style is True:
+            step_id=step_id+1
+    if(step_id==3):
+        run_multiQC(input_dir,out_dir)
+        copy_reporter(out_dir,run_folder_name)
+        if run_style is True:
+            step_id=step_id+1            
+    if(step_id==4):
+        run_kraken(input_dir,out_dir,keep_kraken)
+        copy_reporter(out_dir,run_folder_name)
+        if run_style is True:
+            step_id=step_id+1
+    if(step_id==5):
+        Upload_to_Irida(input_dir)
 
 
 
