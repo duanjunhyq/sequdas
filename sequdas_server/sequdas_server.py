@@ -22,13 +22,10 @@
 # Fax: 604-707-2603                                                  #
 #                                                                    #
 ######################################################################
-#/data/miseq/MiSEQ_bakup_data/JUDY2/DATA_2017/DEMO3_completed_run1
-
 
 import sys
 import re
 import shutil
-
 from Lib.core import *
 
 def main(argv):
