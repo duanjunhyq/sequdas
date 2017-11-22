@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 ######################################################################
-#																											               #
+#																     #
 # BCCDC MiSEQ Archiving System (Sequdas)                             #
-#	                                 										               #
-# Version 1.4																			                   #
-#																											               #
-# 2017-11-21													                               #
-#																											               #
+#	                                 								 #
+# Version 1.4													     #
+#																	 #
+# 2017-11-21													     #
+#																	 #
 # Jun Duan                                                           #
 # BCCDC Public Health Laboratory                                     #
 # University of British Columbia                                     #
