@@ -1,4 +1,3 @@
 # SeqUDAS
-Sequence uploader and data archiving system
 
-SeqUDAS is a system for automatically uploading sequence data into a server.
+SeqUDAS (Sequence Uploader and Data Archiving System) is a system for automatically uploading sequence data into a server and doing QC analysis. 
