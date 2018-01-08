@@ -1,6 +1,0 @@
-Config
-Data
-Logs
-Queued
-Recipe
-Thumbnail_Images
