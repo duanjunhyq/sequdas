@@ -18,4 +18,13 @@ Modern DNA sequencing machines generate several gigabytes (GB) of data per run. 
 
 ## Configuration file
 
+You must provide a configuration file for the pipeline.
+
+Here is an example:
+
+```
+
+```
+
+
 
