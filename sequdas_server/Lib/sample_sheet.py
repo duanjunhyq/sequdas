@@ -97,7 +97,10 @@ def parse_metadata(sample_sheet_file):
         elif section is "header":
             try:
                 key_name = metadata_key_translation_dict[line[0]]
-                metadata_dict[key_name] = line[1]
+                if(len(line)>1):
+                    metadata_dict[key_name] = line[1]
+                else:
+                    metadata_dict[key_name] = ""
             except KeyError:
                 logging.info("Unexpected key in header: [{}]".format(line[0]))
         elif section is "reads":
@@ -284,34 +287,41 @@ def parse_samples(sample_sheet_file):
     # fill in values for keys. line is currently below the [Data] headers
     for sample_number, line in enumerate(csv_reader):
 
-        if len(sample_dict.keys()) != len(line):
-            """
-            if there is one more Data header compared to the length of
-            data values then add an empty string to the end of data values
-            i.e the Description will be empty string
-            assumes the last Data header is going to be the Description
-            this handles the case where the last trailing comma is trimmed
-
-            Shaun said this issue may come up when a user edits the
-            SampleSheet from within the MiSeq software
-            """
-            if len(sample_dict.keys()) - len(line) == 1:
-                line.append("")
-            else:
-                raise SampleSheetError(
-                    "Number of values doesn't match number of " +
-                    "[Data] headers. " +
-                    ("Number of [Data] headers: {data_len}. " +
-                     "Number of values: {val_len}").format(
-                        data_len=len(sample_dict.keys()),
-                        val_len=len(line)
-                    ), [("Your sample sheet is malformed. I expected to find {} "
-                         "columns the [Data] section, but I only found {} columns "
-                         "for line {}.".format(len(sample_dict.keys()), len(line), line))]
-                )
+#        if len(sample_dict.keys()) != len(line):
+#            """
+#            if there is one more Data header compared to the length of
+#            data values then add an empty string to the end of data values
+#            i.e the Description will be empty string
+#            assumes the last Data header is going to be the Description
+#            this handles the case where the last trailing comma is trimmed
+#
+#            Shaun said this issue may come up when a user edits the
+#            SampleSheet from within the MiSeq software
+#            """
+#            if len(sample_dict.keys()) - len(line) == 1:
+#                line.append("")
+#            else:
+#                print sample_dict.keys()
+#                print line
+#                print len(sample_dict.keys())
+#                print len(line)
+#                sys.exit()
+#                print "error: Number of values doesn't match number of"+"[Data] headers. " +("Number of [Data] headers: {data_len}. " +"Number of values: {val_len}").format(data_len=len(sample_dict.keys()), val_len=len(line)
+#                #print "Your sample sheet is malformed. I expected to find {} "
+#                         "columns the [Data] section, but I only found {} columns "
+#                         "for line {}.".format(len(sample_dict.keys()), len(line), line))]
+              
 
         for index, key in enumerate(sample_dict.keys()):
-            sample_dict[key] = line[index].strip()  # assumes values are never empty
+            if len(key)>0:
+                if index>=len(line)-1:
+                    sample_dict[key] = ""
+                else:
+                    sample_dict[key] = line[index].strip()  # assumes values are never empty
+#                print index
+#                print len(line)
+#                print sample_dict[key]
+#                print line[index].strip()
 
         if len(sample_dict["sampleName"]) == 0:
             sample_dict["sampleName"] = sample_dict["sequencerSampleId"]
