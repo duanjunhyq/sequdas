@@ -1,6 +1,4 @@
-# SeqUDAS
-
-SeqUDAS (Sequence Uploader and Data Archiving System)
+# SeqUDAS: Sequence Upload and Data Archiving System
 
 ## Overview
 
