@@ -2,7 +2,7 @@
 
 ## Overview
 
-SeqUDAS is a system for automatically uploading sequence data into a server and doing QC analysis. 
+Modern DNA sequencing machines generate several gigabytes (GB) of data per run. Organizing and archiving this data presents a challenge for small labs. We present a Sequence Upload and Data Archiving System (SeqUDAS) that aims to ease the task of maintaining a sequence data repository through process automation and an intuitive web interface.
 
 ## Features
 
