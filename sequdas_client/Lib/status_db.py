@@ -1,5 +1,6 @@
 import MySQLdb
 from Lib.core import *
+
 s_config=sequdas_config()
 mysql_host=s_config['mysql_account']['mysql_host']
 mysql_user=s_config['mysql_account']['mysql_user']
@@ -10,7 +11,8 @@ def doInsert(bccdc_id_value,source_value,fullpath_value,folder_value,status_valu
 	myConnection = MySQLdb.connect( host=mysql_host, user=mysql_user, passwd=mysql_passwd, db=mysql_db)
 	cur = myConnection.cursor()
 	end_time_value=""
-	cur.execute("INSERT INTO status_table (bccdc_id,source,fullpath,folder,status,start_time,end_time,sample) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",(bccdc_id_value,source_value,fullpath_value,folder_value,status_value,start_time_value,end_time_value,sample_infor))
+	analysis_status_valuy=""
+	cur.execute("INSERT INTO status_table (bccdc_id,source,fullpath,folder,status,start_time,end_time,sample,analysis_status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",(bccdc_id_value,source_value,fullpath_value,folder_value,status_value,start_time_value,end_time_value,sample_infor,analysis_status_valuy))
 	myConnection.commit()
 	myConnection.close()
 
