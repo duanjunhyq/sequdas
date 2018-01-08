@@ -8,7 +8,7 @@ Modern DNA sequencing machines generate several gigabytes (GB) of data per run. 
 
 - Automated upload and storage of sequence data to a central storage server.
 - Data validation with MD5 checksums for data integrity assurance
-- Display of quality control data through a mobile-friendly web interface
+- FASTQC and MultiQC workflows are included to perform QC analysis automatically. 
 - Integration with MultiQC for detailed quality control info for each sample
 - Pass sequence data along to another remote server via API (IRIDA) 
 
