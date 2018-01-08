@@ -80,6 +80,7 @@ def check_time():
     else:
         return True
 
+
 def checkMySQLdb():
     s_config=sequdas_config()
     mysql_host= s_config['mysql_account']['mysql_host']
