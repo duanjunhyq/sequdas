@@ -97,6 +97,8 @@ gmail_pass = test
 
 ## Usage
 
+### Data manager
+
 SeqUDAS uses Cron to triger job based on a time schedule. Once you have installed the packages, you can install cron as a Windows Service using cygrunsrv.
 
 ```
@@ -111,10 +113,12 @@ crontab -e
 * * * * * python //path_for_sequdas_client/sequdas_client.py
 ```
 
+### Data Analyzer
 
+
+
+### Web application
 An example for viewing report:
-
-
 
 ## Acknowledgments
 Our implementation of uploading data to IRIDA utilizes code from [IRIDA miseq uploader](https://github.com/phac-nml/irida-miseq-uploader).
