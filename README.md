@@ -22,7 +22,7 @@ SeqUDAS consists of three components:
 - Data analyzer: Installed on a server to run the data analysis jobs.
 - Web Application: Installed on a server to provide account management and QC data viewing
 
-![sequdas_architecture](https://github.com/duanjunhyq/sequdas/blob/master/docs/images/sequdas-architecture.jpg)
+![sequdas_architecture](https://github.com/duanjunhyq/sequdas/blob/master/docs/images/sequdas-architecture.jpg =250x250)
 
 
 ## Installation
