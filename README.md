@@ -108,9 +108,10 @@ cygrunsrv --install cron --path /usr/sbin/cron --args –n
 ```
 crontab -e 
 ```
+If you want to schedule the archiving time as 10:10 pm every day, you can edit the config file as:
 
 ```
-* * * * * python //path_for_sequdas_client/sequdas_client.py
+30 10 * * * python //path_for_sequdas_client/sequdas_client.py
 ```
 
 ### Data Analyzer
