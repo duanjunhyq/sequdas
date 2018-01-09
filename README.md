@@ -20,7 +20,7 @@ SeqUDAS consists of three components:
 
 - Data manager: Installed on a PC directly attached to an illumina sequencing machine.
 - Data analyzer: Installed on a server to run the data analysis jobs.
-- Web Application: Installed on a server to provide account management and QC data viewing
+- Web Application: Installed on a web server to provide account management and report viewing.
 
 <img src="https://github.com/duanjunhyq/sequdas/blob/master/docs/images/sequdas-architecture.jpg" width="600" height="150">
 
