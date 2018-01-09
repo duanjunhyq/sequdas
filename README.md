@@ -101,17 +101,14 @@ SeqUDAS uses Cron to triger job based on a time schedule. Once you have installe
 
 ```
 cygrunsrv --install cron --path /usr/sbin/cron --args –n
-
 ```
  
 ```
-
- crontab -e
- 
+crontab -e 
 ```
 
 ```
-  * * * * * python //path_for_sequdas_client/sequdas_client.py
+* * * * * python //path_for_sequdas_client/sequdas_client.py
 ```
 
 
