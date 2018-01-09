@@ -34,7 +34,7 @@ Python 2.7
 
 You must provide a configuration file on both Data manager and Data analyzer.
 
-Here is an example for Data manager:
+Here is an example for Data Manager:
 
 ```
 [basic]
@@ -75,7 +75,7 @@ gmail_pass =
 
 ```
 
-Here is an example for Data manager:
+Here is an example for Data Analyzer:
 
 ```
 [basic]
