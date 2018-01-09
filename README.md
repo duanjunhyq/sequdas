@@ -32,9 +32,9 @@ Python 2.7
 
 ## Configuration file
 
-You must provide a configuration file for the pipeline.
+You must provide a configuration file on both Data manager and Data analyzer.
 
-Here is an example:
+Here is an example for Data manager:
 
 ```
 [basic]
@@ -75,5 +75,29 @@ gmail_pass =
 
 ```
 
+Here is an example for Data manager:
+
+```
+[basic]
+write_logfile_details = False
+admin_email = test@test.com
+logfile_dir = Log
+send_email = False
+
+[reporter]
+reporter_ssh_host = test@127.0.1
+qc_dir = /home/sequdas/img
+
+[mysql_account]
+mysql_host = 127.0.0.1
+mysql_user = test
+mysql_passwd = test
+mysql_db = sequdas
+
+[email_account]
+gmail_user = test
+gmail_pass = test
+
+```
 
 
