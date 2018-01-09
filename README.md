@@ -38,40 +38,35 @@ Here is an example for Data Manager:
 
 ```
 [basic]
-#The name for sequencer or sequencing center
-sequencer = 
-run_id_prefix = 
+sequencer = machine_name
+run_id_prefix = BCCDCN
 # Complete list of timizones: https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568
-timezone = 
+timezone = Canada/Pacific
 write_logfile_details = False
 old_file_days_limit = 180
-admin_email = admin@example.org
-logfile_dir = 
+admin_email = test@test.com
+logfile_dir = Log
 send_email = False
 
 [sequencer]
-run_dirs = 
+run_dirs =  //machine/MiSeqAnalysis
 
 [local]
-ssh_private_key= ~/.ssh/id_rsa
+ssh_primate_key= /home/sequdas/.ssh/id_rsa
 
 [server]
-server_ssh_host = 
-server_data_dir = 
-
-[reporter]
-reporter_ssh_host = 
-qc_dir = 
+server_ssh_host = miseq@127.0.0.1
+server_data_dir = /data/sequdas
 
 [mysql_account]
-mysql_host = localhost
+mysql_host = 127.0.1
 mysql_user = test
 mysql_passwd = test
 mysql_db = sequdas
 
 [email_account]
-gmail_user = 
-gmail_pass = 
+gmail_user = test
+gmail_pass = test
 
 ```
 
