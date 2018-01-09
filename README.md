@@ -16,6 +16,10 @@ Modern DNA sequencing machines generate several gigabytes (GB) of data per run. 
 
 ## Installation
 
+The package requires
+
+Python 2.7
+
 ## Configuration file
 
 You must provide a configuration file for the pipeline.
