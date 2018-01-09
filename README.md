@@ -96,9 +96,9 @@ gmail_pass = test
 ```
 
 ## Authors
-Jun Duan: jun.duan@bccdc.ca
+Jun Duan: Jun.Duan@bccdc.ca
 
 Dan Fornika: Dan.Fornika@bccdc.ca
 
-William Hsiao ((PI): William.Hsiao@bccdc.ca 
+William Hsiao (PI): William.Hsiao@bccdc.ca 
 
