@@ -95,6 +95,12 @@ gmail_pass = test
 
 ```
 
+## Usage
+
+An example for viewing report:
+
+
+
 ## Acknowledgments
 Our implementation of uploading data to IRIDA utilizes code from [IRIDA miseq uploader](https://github.com/phac-nml/irida-miseq-uploader).
 
