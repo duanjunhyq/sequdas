@@ -99,15 +99,19 @@ gmail_pass = test
 
 SeqUDAS uses Cron to triger job based on a time schedule. Once you have installed the packages, you can install cron as a Windows Service using Cygrunsrv.
 
-'''
+```
 cygrunsrv --install cron --path /usr/sbin/cron --args –n
-'''
+```
  
-'''
+```
  crontab -e
-'''
+```
+
+```
   * * * * * python //path_for_sequdas_client/sequdas_client.py
-   
+```
+
+
 An example for viewing report:
 
 
