@@ -14,6 +14,15 @@ Modern DNA sequencing machines generate several gigabytes (GB) of data per run. 
 - Archival information, QC results and taxonomic report can be viewed through a mobile-friendly web interface
 - Pass sequence data along to another remote server via API (IRIDA) 
 
+## Architecture
+
+SeqUDAS consists of three components:
+
+- Data manager: Installed on a PC directly attached to an illumina sequencing machine.
+- Data analyzer: Installed on a server to run the data analysis jobs.
+- Web Application: Installed on a server to provide account management and QC data viewing
+
+
 ## Installation
 
 The package requires:
