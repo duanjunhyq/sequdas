@@ -116,7 +116,38 @@ If you want to schedule the archiving time as 10:10 pm every day, you can edit t
 
 ### Data Analyzer
 
+```
+python sequdas_server.py
+```
 
+
+```
+  sequdas_server.py -i <input_directory> -o <output_directory>
+    
+    -h --help
+    -i --in_dir    input_directory (required)
+    -o --out_dir    input_directory  (required)
+    -s --step  step (required)
+       step 1: Run MiSeq reporter
+       step 2: Run FastQC
+       step 3: Run MultiQC
+       step 4: Run Kraken
+       step 5: Run IRIDA uploader
+    -u Sequdas id
+    -e
+       False: won't send email (default)
+       True: end email.    
+    -n
+       False: won't run the IRIDA uploader (default)
+       True: run IRIDA uploader.
+    -t 
+       False: only on step (default)
+       True: run current step and the followings.
+    -k
+       False: won't keep the Kraken result (default)
+       True: keep the Kraken result
+
+```
 
 ### Web application
 An example for viewing report:
