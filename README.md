@@ -96,6 +96,7 @@ gmail_pass = test
 ```
 
 ## Acknowledgments
+Our implementation of uploading data to IRIDA utilizes code from [IRIDA miseq uploader](https://github.com/phac-nml/irida-miseq-uploader).
 
 ## Authors
 Jun Duan: Jun.Duan@bccdc.ca
