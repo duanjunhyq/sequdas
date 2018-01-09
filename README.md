@@ -97,14 +97,17 @@ gmail_pass = test
 
 ## Usage
 
-SeqUDAS uses Cron to triger job based on a time schedule. Once you have installed the packages, you can install cron as a Windows Service using Cygrunsrv.
+SeqUDAS uses Cron to triger job based on a time schedule. Once you have installed the packages, you can install cron as a Windows Service using cygrunsrv.
 
 ```
 cygrunsrv --install cron --path /usr/sbin/cron --args –n
+
 ```
  
 ```
+
  crontab -e
+ 
 ```
 
 ```
