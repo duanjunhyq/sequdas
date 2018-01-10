@@ -29,7 +29,13 @@ SeqUDAS consists of three components:
 
 The package requires:
 
-Python 2.7
+|               | software requirements |
+| ------------- | ------------- |
+| Data Manager  | Content Cell  |
+| Data Analyzer | Content Cell  |
+| Web Application | Content Cell  |
+
+
 
 ### How to install
 
