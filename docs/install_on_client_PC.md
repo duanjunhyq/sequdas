@@ -1,4 +1,6 @@
-Installation:
+## Installation:
+
+### Dependencies
 
 PC:
 1. Download and install cygwin
