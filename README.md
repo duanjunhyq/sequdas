@@ -105,10 +105,11 @@ SeqUDAS uses Cron to triger job based on a time schedule. Once you have installe
 cygrunsrv --install cron --path /usr/sbin/cron --args –n
 ```
  
+If you want to schedule the archiving time as 10:10 pm every day, you can edit the config file as:
+
 ```
 crontab -e 
 ```
-If you want to schedule the archiving time as 10:10 pm every day, you can edit the config file as:
 
 ```
 30 10 * * * python //path_for_sequdas_client/sequdas_client.py
