@@ -153,11 +153,11 @@ python sequdas_server.py
 ### Web application
 An example for viewing report:
 
-<img src="https://github.com/duanjunhyq/sequdas/blob/master/docs/images/sequdas_index_ex.png" width="900" height="350">
+<img src="https://github.com/duanjunhyq/sequdas/blob/master/docs/images/sequdas_index_ex.png" width="700" height="350">
 
 Illumia SAV report:
 
-<img src="https://github.com/duanjunhyq/sequdas/blob/master/docs/images/sequdas_SAV_ex.jpg" width="900" height="350">
+<img src="https://github.com/duanjunhyq/sequdas/blob/master/docs/images/sequdas_SAV_ex.jpg" width="700" height="350">
 
 
 ## Acknowledgments
