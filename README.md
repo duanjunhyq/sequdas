@@ -153,7 +153,7 @@ python sequdas_server.py
 ### Web application
 An example for viewing report:
 
-<img src="https://github.com/duanjunhyq/sequdas/blob/master/docs/images/sequdas-architecture.jpg" width="600" height="150">
+<img src="https://github.com/duanjunhyq/sequdas/blob/master/docs/images/sequdas_index_ex.png" width="900" height="700">
 
 
 
