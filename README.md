@@ -31,8 +31,8 @@ The package requires:
 
 |               | Software requirements |
 | ------------- | ------------- |
-| Data Manager  | Cygwin (OpenSSH,cron,rsync,md5deep)  |
-| Data Analyzer | Python, Kraken, FastQC, MultiQC,MD2 |
+| Data Manager  | Cygwin (OpenSSH, cron, rsync, md5deep)  |
+| Data Analyzer | Python, Kraken, FastQC, MultiQC,md5deep |
 | Web Application | Apache, MySQL, PHP, UserSpice, Bootstrap|
 
 
