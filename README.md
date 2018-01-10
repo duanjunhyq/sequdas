@@ -37,13 +37,15 @@ The package requires:
 
 
 
-### How to install
+### How to install through source
 
 [Install Data Manager](https://github.com/duanjunhyq/sequdas/blob/master/docs/install_on_client_PC.md)
 
 [Install Data Analyzer](https://github.com/duanjunhyq/sequdas/blob/master/docs/install_on_server.md)
 
 [Install Web Application](https://github.com/duanjunhyq/sequdas/blob/master/docs/install_on_web_server)
+
+### How to install through docker
 
 
 ## Configuration file
