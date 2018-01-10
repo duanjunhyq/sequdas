@@ -33,9 +33,12 @@ Python 2.7
 
 ### How to install
 
-[Install Data Manager] (#)
-[Install Data Analyzer] (#)
-[Install Web Application] (#)
+[Install Data Manager] (https://github.com/duanjunhyq/sequdas/blob/master/docs/install_on_client_PC.md)
+
+[Install Data Analyzer] (https://github.com/duanjunhyq/sequdas/blob/master/docs/install_on_server.md)
+
+[Install Web Application] (https://github.com/duanjunhyq/sequdas/blob/master/docs/install_on_web_server)
+
 
 ## Configuration file
 
