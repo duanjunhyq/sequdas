@@ -2,7 +2,6 @@
 
 ### Dependencies
 
-PC:
 1. Download and install cygwin
 
   Cygwin can be installed from https://cygwin.com/setup-x86.exe
