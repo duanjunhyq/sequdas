@@ -29,11 +29,11 @@ SeqUDAS consists of three components:
 
 The package requires:
 
-|               | software requirements |
+|               | Software requirements |
 | ------------- | ------------- |
-| Data Manager  | Content Cell  |
-| Data Analyzer | Content Cell  |
-| Web Application | Content Cell  |
+| Data Manager  | Cygwin (OpenSSH,cron,rsync,md5deep)  |
+| Data Analyzer | Python, Kraken, FastQC, MultiQC,MD2 |
+| Web Application | Apache, MySQL, PHP, UserSpice, Bootstrap|
 
 
 
@@ -44,6 +44,7 @@ The package requires:
 [Install Data Analyzer](https://github.com/duanjunhyq/sequdas/blob/master/docs/install_on_server.md)
 
 [Install Web Application](https://github.com/duanjunhyq/sequdas/blob/master/docs/install_on_web_server)
+
 
 ### How to install through docker
 
