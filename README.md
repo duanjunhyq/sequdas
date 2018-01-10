@@ -163,6 +163,10 @@ A MultiQC report:
 
 <img src="https://github.com/duanjunhyq/sequdas/blob/master/docs/images/sequdas_multQC_ex.jpg" width="700" height="275">
 
+A Kraken report:
+
+<img src="https://github.com/duanjunhyq/sequdas/blob/master/docs/images/sequdas_Kraken_ex.jpg" width="700" height="275">
+
 ## Acknowledgments
 Our implementation of uploading data to IRIDA utilizes code from [IRIDA miseq uploader](https://github.com/phac-nml/irida-miseq-uploader).
 
