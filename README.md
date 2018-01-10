@@ -26,9 +26,16 @@ SeqUDAS consists of three components:
 
 ## Installation
 
+
 The package requires:
 
 Python 2.7
+
+### How to install
+
+[Install Data Manager] (#)
+[Install Data Analyzer] (#)
+[Install Web Application] (#)
 
 ## Configuration file
 
