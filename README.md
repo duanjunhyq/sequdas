@@ -153,6 +153,10 @@ python sequdas_server.py
 ### Web application
 An example for viewing report:
 
+<img src="https://github.com/duanjunhyq/sequdas/blob/master/docs/images/sequdas-architecture.jpg" width="600" height="150">
+
+
+
 ## Acknowledgments
 Our implementation of uploading data to IRIDA utilizes code from [IRIDA miseq uploader](https://github.com/phac-nml/irida-miseq-uploader).
 
