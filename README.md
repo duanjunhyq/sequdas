@@ -190,16 +190,16 @@ A Kraken report:
 ## Change log
 
 Version v0.1.2
--Added MultiQC pipeline to the QC report.
--Added the taxonomic analysis report (Kraken).
--Added the contamination detection results. Detected organisms will be displayed on genus level.
--Changed the table to bootstrap table to sopport sorting and provide better suppprot for tablet, phone, and PC.
--Added the sample information to the collapse table.
+- Added MultiQC pipeline to the QC report.
+- Added the taxonomic analysis report (Kraken).
+- Added the contamination detection results. Detected organisms will be displayed on genus level.
+- Changed the table to bootstrap table to sopport sorting and provide better suppprot for tablet, phone, and PC.
+- Added the sample information to the collapse table.
 
 Version v0.1.3
--Separated the code into different libraries and modules.
--Switching the analysis pipeline run on the server only to avoid internet interrupt.
--Fixed issue where sample name contains space, or dash.
+- Separated the code into different libraries and modules.
+- Switching the analysis pipeline run on the server only to avoid internet interrupt.
+- Fixed issue where sample name contains space, or dash.
 
 
 ## Acknowledgments
