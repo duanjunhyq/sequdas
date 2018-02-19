@@ -186,6 +186,22 @@ A Kraken report:
 
 <img src="https://github.com/duanjunhyq/sequdas/blob/master/docs/images/sequdas_Kraken_ex.jpg" width="700" height="300">
 
+
+## Change log
+
+Version v0.1.2
+Added MultiQC pipeline to the QC report.
+Added the taxonomic analysis report (Kraken).
+Added the contamination detection results. Detected organisms will be displayed on genus level.
+Changed the table to bootstrap table to sopport sorting and provide better suppprot for tablet, phone, and PC.
+Added the sample information to the collapse table.
+
+Version v0.1.3
+Separated the code into different libraries and modules.
+Switching the analysis pipeline run on the server only to avoid internet interrupt.
+Fixed issue where sample name contains space, or dash.
+
+
 ## Acknowledgments
 Our implementation of uploading data to IRIDA utilizes code from [IRIDA miseq uploader](https://github.com/phac-nml/irida-miseq-uploader).
 
