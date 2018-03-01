@@ -27,4 +27,14 @@ make : The GNU version of the 'make' utility
 
 3. setup ssh private key
 
+ssh-keygen -t rsa
+
+cat ~/.ssh/id_rsa.pub
+
+Copy and paste this key to the authorized_keys file (.ssh/authorized_keys) on the server
+
+Or you can do it directly like this:
+
+cat ~/.ssh/id_rsa.pub | ssh yourusername@yourserver 'cat >> .ssh/authorized_keys'
+
 
