@@ -24,3 +24,7 @@ gcc-g++ : C++ subpackage
 libgcc1 : C runtime library
 gdb : The GNU Debugger
 make : The GNU version of the 'make' utility
+
+3. setup ssh private key
+
+
