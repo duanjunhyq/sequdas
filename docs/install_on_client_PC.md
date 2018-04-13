@@ -37,4 +37,9 @@ Or you can do it directly like this:
 
 cat ~/.ssh/id_rsa.pub | ssh yourusername@yourserver 'cat >> .ssh/authorized_keys'
 
+Troubleshooting:
+
+Change the permissions of .ssh to 700
+Change the permissions of .ssh/authorized_keys2 to 640
+
 
