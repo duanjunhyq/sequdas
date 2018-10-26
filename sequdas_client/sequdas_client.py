@@ -1,25 +1,26 @@
 #!/usr/bin/env python
 ######################################################################
-#													
-# BCCDC MiSEQ Archiving System (Sequdas)                             
-#	                                 				
-# Version 1.5																			
-#															
-#																	
-# Jun Duan                                                           
-# BCCDC Public Health Laboratory                                     
-# University of British Columbia                                     
-# jun.duan@bccdc.ca                                                 
-#                                                                    
-# William Hsiao, PhD                                                 
-# Senior Scientist (Bioinformatics), BCCDC Public Health Laboratory  
-# Clinical Assistant Professor, Pathology & Laboratory Medicine, UBC 
-# Adjunct Professor, Molecular Biology and Biochemistry, SFU         
-# Rm 2067a, 655 West 12th Avenue                                     
-# Vancouver, BC, V5Z 4R4                                             
-# Canada                                                             
-# Tel: 604-707-2561                                                  
-# Fax: 604-707-2603                                                  
+#                                                                    #
+# BCCDC MiSEQ Archiving System (Sequdas)                             #
+#                                                                    #
+# Version 1.5                                                        #
+#                                                                    #
+# 2017-11-30                                                         #
+#                                                                    #
+# Jun Duan                                                           #
+# BCCDC Public Health Laboratory                                     #
+# University of British Columbia                                     #
+# jun.duan@bccdc.ca                                                  #
+#                                                                    #
+# William Hsiao, PhD                                                 #
+# Senior Scientist (Bioinformatics), BCCDC Public Health Laboratory  #
+# Clinical Assistant Professor, Pathology & Laboratory Medicine, UBC #
+# Adjunct Professor, Molecular Biology and Biochemistry, SFU         #
+# Rm 2067a, 655 West 12th Avenue                                     #
+# Vancouver, BC, V5Z 4R4                                             #
+# Canada                                                             #
+# Tel: 604-707-2561                                                  #
+# Fax: 604-707-2603                                                  #
 ######################################################################
 
 
@@ -47,6 +48,7 @@ def main():
     logfile=logfile_dir+machine+"_sequdas_log.txt"
     logfile_details_file=logfile_dir+machine+"_sequdas_details_log.txt"
     send_email_switch=str2bool(s_config['basic']['send_email'])
+    old_file_days_limit=int(s_config['basic']['old_file_days_limit'])
     # Remote setting
     data_server= s_config['server']['server_ssh_host']
     data_repository=s_config['server']['server_data_dir']
@@ -62,8 +64,9 @@ def main():
     gmail_user= s_config['email_account']['gmail_user']
     gmail_pass= s_config['email_account']['gmail_pass']
     admin_emails= s_config['basic']['admin_email']
-    admin_emails=re.sub(r"\s+", "", admin_emails, flags=re.UNICODE)
-    email_list = admin_emails.split(";")
+    split_pattern = re.compile(r"[;,]")
+    email_list_admin=split_pattern.split(admin_emails)
+    email_list=email_list_admin
     log_details=s_config['basic']['write_logfile_details']
     log_details=str2bool(log_details)
     if log_details is True:
@@ -112,15 +115,15 @@ def main():
             if log_details is True:
                 logger.info("start to process runs with error"+"\n")
             for run_with_error in run_with_error_list:            
-                
+                email_list=email_list_admin
                 run_with_error_name=os.path.basename(os.path.normpath(run_with_error))
                 sample_sheets=[run_with_error+"/"+"SampleSheet.csv"]
                 metadata=parse_metadata(sample_sheets[0])
-                investigator_list = metadata["investigatorName"].split(";")
+                investigator_list = split_pattern.split(metadata["investigatorName"])
                 if log_details is True:
                     logger.info("**Run: "+run_with_error+"\n")
                 for operator in investigator_list:
-                    operator.replace(" ", "")
+                    operator.replace(" ","")
                     if(validate_email_address(operator).lower()=="valid"):
                         email_list.append(operator)
                 if send_email_switch is True:
@@ -153,6 +156,12 @@ def main():
                     logger.info("start to process normal run:"+run_handle+"("+current_ID+")"+"\n")
                 sample_sheets=[run_handle+"/"+"SampleSheet.csv"]                
                 metadata=parse_metadata(sample_sheets[0])
+                email_list=email_list_admin
+                investigator_list = split_pattern.split(metadata["investigatorName"])
+                for operator in investigator_list:
+                    operator.replace(" ","")
+                    if(validate_email_address(operator).lower()=="valid"):
+                        email_list.append(operator)
                 sample_list=parse_samples(sample_sheets[0])
                 sample_infor=""
                 mark=0
@@ -167,6 +176,7 @@ def main():
                     if re.search( r'\_', sample_name):
                         sample_name=sample_name.replace("_", "-")
                     sample_name = sample_name.replace(' ', '-')
+                    sample_name = sample_name.replace('.', '-')
                     if(len(sample['sampleProject'])>0):
                         sample_data = sample_name+"("+sample['sampleProject']+")"
                         uploader=1
@@ -198,6 +208,12 @@ def main():
                     logger.info("Start archiving: "+rsynccmd+"\n")
 
                 rsyncproc = subprocess.call(rsynccmd,shell=True)
+
+#                while True:
+#                    next_line = rsyncproc.stdout.readline().decode("utf-8")
+#                    if not next_line:
+#                        break
+#                exitcode = rsyncproc.wait()
                 if rsyncproc == 0:
                     #status 2: 	Data has been transferred. Waiting for md5 check
                     if log_details is True:
@@ -236,10 +252,15 @@ def main():
                             else:
                                 email_swith=""
                             if uploader==1:
+                                #stdin, stdout, stderr = ssh.exec_command("nohup  python /data/miseq/sequdas_server/sequdas_server.py -i "+run_path_on_server+" -o /data/miseq/sequdas_server/sequdas_result"+" -u "+current_ID+" -s 1 -n -t"+email_swith+" >>1.txt 2>&1 &")
                                 ssh.exec_command("nohup  python /data/miseq/sequdas_server/sequdas_server.py -i "+run_path_on_server+" -o /data/miseq/sequdas_server/sequdas_result"+" -u "+current_ID+" -s 1 -n -t"+email_swith+" >>1.txt 2>&1 &")
                             else:
+                                #stdin, stdout, stderr = ssh.exec_command("nohup  python /data/miseq/sequdas_server/sequdas_server.py -i "+run_path_on_server+" -o /data/miseq/sequdas_server/sequdas_result"+" -u "+current_ID+" -s 1 -t"+email_swith+" >>1.txt 2>&1 &")
                                 ssh.exec_command("nohup  python /data/miseq/sequdas_server/sequdas_server.py -i "+run_path_on_server+" -o /data/miseq/sequdas_server/sequdas_result"+" -u "+current_ID+" -s 1 -n -t"+email_swith+" >>1.txt 2>&1 &")                          
                         except:
+                            status_id=0
+                            status_id_str=str(status_id)
+                            change_logfile(logfile,current_ID,status_id_str)
                             logger.error("There is something wrong with analysis pipeline, please check connection or pipeline"+"\n")                                  
                         #########################################
                     else:
@@ -256,16 +277,20 @@ def main():
                     doUpdate(current_ID,status_id)
                     if log_details is True:
                         logger.error("Archiving process error, archiving process should be rerun"+"\n")
-    old_file_list=del_old_file(logfile)
+    old_file_list=del_old_file_based_on_db()
     if len(old_file_list)>0:
+        old_file_str=', '.join(old_file_list)
+        if send_email_switch is True:
+            removal_title="Old data greater than "+str(old_file_days_limit)+" days have been removed";
+            send_email(gmail_user,gmail_pass,email_list_admin,removal_title,old_file_str,"")
         if log_details is True:	 	
-            logger.info("Run has been deleted as it's too old: "+str(old_file_list)[1:-1]+"\n")
+            logger.info("The run data have been deleted as it's too old: "+old_file_str+"\n")
         else:
-            print "Run has been deleted as it's too old: "+str(old_file_list)[1:-1]+"\n"
+            print "The run data have been deleted as it's too old: "+old_file_str+"\n"
     if log_details is True:	 	
         logger.info("End running SeqUDAS"+"\n")
 
-#                    
+                    
 if __name__ == "__main__":
     main()
 
