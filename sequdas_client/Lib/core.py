@@ -14,6 +14,7 @@ import shutil
 import sys
 
 
+
 def sequdas_config():
     try:
         config=read_config()
@@ -310,6 +311,50 @@ def del_old_file(filename):
             change_logfile(logfile,item,status_id_str)
             subprocess.call(["rsync","-p","--chmod=ug=rwx","-artvh",logfile_dir_without_slash,data_server+":"+server_log_dir])
     return my_list
+
+def del_old_file_based_on_db():
+    s_config=sequdas_config()
+    ID_prefix=s_config['basic']['run_id_prefix']
+    machine=s_config['basic']['sequencer']
+    old_file_days_limit=int(s_config['basic']['old_file_days_limit'])
+    old_file_list=[]
+    old_file_list_del=[]
+    run_dirs_analysis=s_config['sequencer']['run_dirs']
+    run_dirs_output=s_config['sequencer']['run_dirs_output']
+    mysql_host=s_config['mysql_account']['mysql_host']
+    mysql_user=s_config['mysql_account']['mysql_user']
+    mysql_passwd=s_config['mysql_account']['mysql_passwd']
+    mysql_db=s_config['mysql_account']['mysql_db']
+    mysql_table=s_config['mysql_account']['mysql_table']
+    myConnection = MySQLdb.connect( host=mysql_host, user=mysql_user, passwd=mysql_passwd, db=mysql_db)
+    cur = myConnection.cursor()
+    query="SELECT folder FROM "+mysql_table+ " WHERE start_time < DATE_SUB(SYSDATE(), INTERVAL "+str(old_file_days_limit)+" DAY) and source='"+machine+"'"+" and del_status<1"+" and status>3"
+    cur.execute(query)
+    data = cur.fetchall()
+    for row in data:
+        old_file_list.append(row[0]);
+    cur.close()
+    if(len(old_file_list)>0):
+        for run_name in old_file_list:
+            path1=check_path_with_slash(run_dirs_analysis)+run_name
+            path2=check_path_with_slash(run_dirs_output)+run_name
+            mark_i = 0
+            if os.path.isdir(path1) or os.path.isdir(path2):
+                if os.path.isdir(path1):
+                    shutil.rmtree(path1,ignore_errors=True)
+                    mark_i=mark_i+1
+                if os.path.isdir(path2):
+                    shutil.rmtree(path2,ignore_errors=True)
+                    mark_i=mark_i+1
+                if(mark_i>0):
+                    old_file_list_del.append(run_name);
+                    myConnection = MySQLdb.connect( host=mysql_host, user=mysql_user, passwd=mysql_passwd, db=mysql_db)
+                    cur = myConnection.cursor()
+                    update_status="UPDATE "+mysql_table+" set del_status='1' WHERE folder='"+run_name+"' and source='"+machine+"'";
+                    cur.execute(update_status)
+                    myConnection.commit()
+                    cur.close()
+    return old_file_list_del
 
 def remove_csv_file():
     files = os.listdir(os.curdir)

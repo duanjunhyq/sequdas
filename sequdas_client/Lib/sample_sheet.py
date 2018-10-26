@@ -104,7 +104,7 @@ def parse_metadata(sample_sheet_file):
                 else:
                     metadata_dict[key_name] = ""
             except KeyError:
-                logging.info("Unexpected key in header: [{}]".format(line[0]))
+                print ("Unexpected key in header: [{}]".format(line[0]))
         elif section is "reads":
             metadata_dict["readLengths"].append(line[0])
 

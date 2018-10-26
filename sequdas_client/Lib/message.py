@@ -1,5 +1,7 @@
 import smtplib
 
+
+
 def send_email_core(user, pwd, recipient, subject, body):
     gmail_user = user
     gmail_pwd = pwd
@@ -18,6 +20,8 @@ def send_email_core(user, pwd, recipient, subject, body):
         print 'successfully sent the mail'
     except:
         print "failed to send mail"
+#################################################     
+
 
 def send_email(user, pwd, recipient, subject, run_id,status):
     gmail_user = user
@@ -66,3 +70,17 @@ def send_email(user, pwd, recipient, subject, run_id,status):
                        " is completed without error and has been transferred to our archival server. The analysis pipeline has been finished.Pleae check the report at http://142.103.74.210/miseq/. If you have any question, please contact William.hsiao@bccdc.ca."
                       ])
         send_email_core(user, pwd, recipient, subject, body)
+    if "removed" in subject: 
+        subject=subject
+        body = "".join([
+                       "Dear Colleagues,",
+                       '\n\n',
+                       "These old Runs (",
+                        run_id,
+                        ")",
+                       " have been deleted as they have exceeded our data keeping limit, but you can still access these data on our Sabin server. If you have any question, please contact William.hsiao@bccdc.ca."
+                      ])
+        send_email_core(user, pwd, recipient, subject, body)
+
+
+
