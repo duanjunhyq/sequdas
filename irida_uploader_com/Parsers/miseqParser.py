@@ -122,7 +122,7 @@ def complete_parse_samples(sample_sheet_file):
         uploader_info = None
 
     for sample in sample_list:
-        #print sample     
+        print sample     
         properties_dict = parse_out_sequence_file(sample)
         # this is the Illumina-defined pattern for naming fastq files, from:
         # http://blog.basespace.illumina.com/2014/08/18/fastq-upload-in-now-available-in-basespace/
