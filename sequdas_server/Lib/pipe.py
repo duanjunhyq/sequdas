@@ -10,6 +10,10 @@ def run_machine_QC(directory,out_dir):
     filetype_list=["_ClusterCount-by-lane.png","_flowcell-Intensity.png","_Intensity-by-cycle_Intensity.png","_q-heat-map.png","_q-histogram.png","_sample-qc.png"]
     run_folder_name=os.path.basename(os.path.normpath(directory))
     run_analysis_folder=out_dir+"/"+run_folder_name
+    samplesheet_file=directory+"/"+"SampleSheet.csv"
+    print samplesheet_file
+    shutil.copy(samplesheet_file,run_analysis_folder)
+    subprocess.call(['chmod', '755', run_analysis_folder+"/"+"SampleSheet.csv"])
     for command in command_list1:
         filename_output=run_analysis_folder+"/"+run_folder_name+"_"+command+".csv"
         try: 
@@ -41,9 +45,7 @@ def run_machine_QC(directory,out_dir):
            shutil.move(src,run_analysis_folder)
         except:
            os.remove(src)
-    samplesheet_file=directory+"/"+"SampleSheet.csv"    
-    shutil.copy(samplesheet_file,run_analysis_folder)
-    subprocess.call(['chmod', '755', run_analysis_folder+"/"+"SampleSheet.csv"])
+    
 
 def run_fastqc(directory,out_dir):
     run_folder_name=os.path.basename(os.path.normpath(directory))
@@ -88,6 +90,7 @@ def run_kraken(directory,out_dir,keep_kraken):
                     key=matchObj.group(1)+"_"+matchObj.group(2)
                     fastq_file_dict[key]=fastq_file
     for sample in sample_list:
+        #print sample['sampleName']
         if(len(sample['sampleName'])==0 and len(sample['sequencerSampleId'])==0):
            continue     
         if(len(sample['sampleName'])>0):
@@ -96,6 +99,7 @@ def run_kraken(directory,out_dir,keep_kraken):
             sample_name_t=sample['sequencerSampleId']
         sample_name_t=sample_name_t.replace('_','-')
         sample_name_t=sample_name_t.replace(' ','-')
+        sample_name_t=sample_name_t.replace('.','-')
         sample_name_t_R1=sample_name_t+"_R1";
         sample_name_t_R2=sample_name_t+"_R2";
         fq_F=directory+"/Data/Intensities/BaseCalls/"+fastq_file_dict[sample_name_t_R1]
@@ -110,7 +114,7 @@ def run_kraken(directory,out_dir,keep_kraken):
            kraken_json_file=run_analysis_folder+"/"+sample_name_t+"_kraken.js"
             
            with open(kraken_json_file, 'w') as output_file:
-               p3_3=subprocess.call(['python','kraken_parse.py','G','2','5',kraken_report_file],stdout=output_file)
+               p3_3=subprocess.call(['python','/data/miseq/kraken_parse.py','G','2','5',kraken_report_file],stdout=output_file)
            output_file.close()
            kraken_sorted_for_krona=run_analysis_folder+"/"+sample_name_t+"_krona.ini"
            with open(kraken_sorted_for_krona, 'w') as output_file:
@@ -124,6 +128,60 @@ def run_kraken(directory,out_dir,keep_kraken):
         except:     
            print "error,please check Kraken"
    
+
+def run_kaiju(directory,out_dir,keep_kaiju):
+    run_folder_name=os.path.basename(os.path.normpath(directory))
+    fastq_file_location=directory+"/Data/Intensities/BaseCalls/"
+    run_analysis_folder=out_dir+"/"+run_folder_name
+    sample_sheets=[directory+"/"+"SampleSheet.csv"]
+    metadata=parse_metadata(sample_sheets[0])
+    sample_list=parse_samples(sample_sheets[0])
+    fastq_files = os.listdir(fastq_file_location)
+    fastq_file_dict = {}
+    for fastq_file in fastq_files:
+        if fastq_file.endswith(".fastq.gz"):
+            matchObj = re.match( r'(.*)\_S\d+\_L\d{3}\_(R\d+)\_\S+(fastq.gz)', fastq_file, re.M|re.I)
+            if matchObj:
+                if(matchObj.group(2)=="R1" or matchObj.group(2)=="R2"):
+                    key=matchObj.group(1)+"_"+matchObj.group(2)
+                    fastq_file_dict[key]=fastq_file
+    for sample in sample_list:
+        #print sample['sampleName']
+        if(len(sample['sampleName'])==0 and len(sample['sequencerSampleId'])==0):
+           continue     
+        if(len(sample['sampleName'])>0):
+            sample_name_t=sample['sampleName']
+        else:
+            sample_name_t=sample['sequencerSampleId']
+        sample_name_t=sample_name_t.replace('_','-')
+        sample_name_t=sample_name_t.replace(' ','-')
+        sample_name_t=sample_name_t.replace('.','-')
+        sample_name_t_R1=sample_name_t+"_R1";
+        sample_name_t_R2=sample_name_t+"_R2";
+        fq_F=directory+"/Data/Intensities/BaseCalls/"+fastq_file_dict[sample_name_t_R1]
+        fq_R=directory+"/Data/Intensities/BaseCalls/"+fastq_file_dict[sample_name_t_R2]
+        try:
+            level='genus'
+            kaiju_result_file=run_analysis_folder+"/"+sample_name_t+"_kaiju.out"
+            kaiju_report_sum=run_analysis_folder+"/"+sample_name_t+"_kaiju_sum.txt"
+            kaiju_report_file=run_analysis_folder+"/"+sample_name_t+"_kaiju.ini"
+            kaiju_html_file=run_analysis_folder+"/"+sample_name_t+"_kaiju_krona.out.html"
+            kaiju_json_file=run_analysis_folder+"/"+sample_name_t+"_kaiju.js"
+            p4_1 = subprocess.call(['kaiju' ,'-z','30','-t','/data/miseq/0.db/2.kaiju_db/nodes.dmp','-f','/data/miseq/0.db/2.kaiju_db/kaiju_db_nr_euk.fmi','-i',fq_F,'-j',fq_R,'-o',kaiju_result_file])
+            p4_2 = subprocess.call(['kaijuReport','-t','/data/miseq/0.db/2.kaiju_db/nodes.dmp','-n','/data/miseq/0.db/2.kaiju_db/names.dmp','-i',kaiju_result_file,'-o',kaiju_report_sum,'-r',level])
+            p4_3 = subprocess.call(['kaiju2krona','-t','/data/miseq/0.db/2.kaiju_db/nodes.dmp','-n','/data/miseq/0.db/2.kaiju_db/names.dmp','-i',kaiju_result_file,'-o',kaiju_report_file])
+            p4_4= subprocess.call(['perl','/data/miseq/1.soft/KronaTools-2.7/scripts/ImportText.pl','-o',kaiju_html_file,kaiju_report_file])
+            with open(kaiju_json_file, 'w') as output_file:
+                p4_5=subprocess.call(['python','/data/miseq/sequdas_server/kaiju_parse.py',kaiju_report_sum,'5'],stdout=output_file)
+            output_file.close()
+            if(keep_kaiju is False):
+               p4_6= subprocess.call(['rm','-fr', kaiju_result_file])
+               p4_7= subprocess.call(['rm','-fr', kaiju_report_file])
+
+        except:     
+           print "error,please check Kaiju"
+
+
    
 def Upload_to_Irida(directory):
     run_folder_name=os.path.basename(os.path.normpath(directory))
