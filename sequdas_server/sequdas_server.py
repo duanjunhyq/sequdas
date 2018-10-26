@@ -1,27 +1,29 @@
 #!/usr/bin/env python
 ######################################################################
-#																											               
-# BCCDC MiSEQ Archiving System (Sequdas)                             
-#	                                 										               
-# Version 1.5																			                   
-#																											               
-# 2017-11-30													                               
-#																											               
-# Jun Duan                                                           
-# BCCDC Public Health Laboratory                                     
-# University of British Columbia                                     
-# jun.duan@bccdc.ca                                                  
-#                                                                    
-# William Hsiao, PhD                                                 
-# Senior Scientist (Bioinformatics), BCCDC Public Health Laboratory  
-# Clinical Assistant Professor, Pathology & Laboratory Medicine, UBC 
-# Adjunct Professor, Molecular Biology and Biochemistry, SFU         
-# Rm 2067a, 655 West 12th Avenue                                     
-# Vancouver, BC, V5Z 4R4                                             
-# Canada                                                             
-# Tel: 604-707-2561                                                  
-# Fax: 604-707-2603                                                  
+#																											               #
+# BCCDC MiSEQ Archiving System (Sequdas)                             #
+#	                                 										               #
+# Version 1.5																			                   #
+#																											               #
+# 2017-11-30													                               #
+#																											               #
+# Jun Duan                                                           #
+# BCCDC Public Health Laboratory                                     #
+# University of British Columbia                                     #
+# jun.duan@bccdc.ca                                                  #
+#                                                                    #
+# William Hsiao, PhD                                                 #
+# Senior Scientist (Bioinformatics), BCCDC Public Health Laboratory  #
+# Clinical Assistant Professor, Pathology & Laboratory Medicine, UBC #
+# Adjunct Professor, Molecular Biology and Biochemistry, SFU         #
+# Rm 2067a, 655 West 12th Avenue                                     #
+# Vancouver, BC, V5Z 4R4                                             #
+# Canada                                                             #
+# Tel: 604-707-2561                                                  #
+# Fax: 604-707-2603                                                  #
 ######################################################################
+#/data/miseq/MiSEQ_bakup_data/JUDY2/DATA_2017/DEMO3_completed_run1
+#python /data/miseq/sequdas_server/sequdas_server.py -i /data/miseq/MiSEQ_bakup_data/BAM/DATA_2017/ DEMO3_completed_run2 -o test -s 1
 
 import sys
 import re
@@ -43,7 +45,7 @@ import json
                         
 
 def main(argv):
-    (input_dir, out_dir,step_id,run_style,keep_kraken,run_uploader,sequdas_id,send_email_switch)=run_parameter(argv)
+    (input_dir, out_dir,step_id,run_style,keep_kraken,keep_kaiju,run_uploader,sequdas_id,send_email_switch)=run_parameter(argv)
     run_style=str2bool(run_style)
     keep_kraken=str2bool(keep_kraken)
     run_uploader=str2bool(run_uploader)
@@ -65,8 +67,17 @@ def main(argv):
     gmail_user= s_config['email_account']['gmail_user']
     gmail_pass= s_config['email_account']['gmail_pass']
     admin_emails= s_config['basic']['admin_email']
-    admin_emails=re.sub(r"\s+", "", admin_emails, flags=re.UNICODE)
-    email_list = admin_emails.split(";")
+    split_pattern = re.compile(r"[;,]")
+    email_list_admin=split_pattern.split(admin_emails)
+    email_list=email_list_admin
+    if send_email_switch is True:
+        sample_sheets=[input_dir+"/"+"SampleSheet.csv"]
+        metadata=parse_metadata(sample_sheets[0])
+        investigator_list = split_pattern.split(metadata["investigatorName"])
+        for operator in investigator_list:
+            operator.replace(" ","")
+            if(validate_email_address(operator).lower()=="valid"):
+                email_list.append(operator)
     if log_details is True:
         logger = logging.getLogger(__name__)
         logger.setLevel(logging.INFO)
@@ -149,7 +160,24 @@ def main(argv):
             status_update(sequdas_id,step_id,status)            
         if run_style is True:
             step_id=step_id+1
-    if(step_id==5 and run_uploader is True):
+    if(step_id==5):
+        try:
+            run_kaiju(input_dir,out_dir,keep_kraken)
+            copy_reporter(out_dir,run_name)
+            status=1
+        except:
+            status=0
+        update_pipe_status(logfile,run_name,str(step_id),status)
+        if log_details is True:
+            if (status==1):
+               logger.info("step"+str(step_id)+" has been finished"+"\n")
+            else:
+               logger.info("There is something wrong with step"+str(step_id)+" . Please check!"+"\n")
+        if len(sequdas_id)>0:
+            status_update(sequdas_id,step_id,status)            
+        if run_style is True:
+            step_id=step_id+1
+    if(step_id==6 and run_uploader is True):
         try:
             Upload_to_Irida(input_dir)
             status=1
@@ -165,6 +193,5 @@ def main(argv):
     if send_email_switch is True:
         send_email(gmail_user,gmail_pass,email_list,"Analysis is finished",run_name,"")                
     logger.info("############################################## End"+"\n")
-
 if __name__ == "__main__":
     main(sys.argv[1:])

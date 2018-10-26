@@ -1,5 +1,7 @@
 import smtplib
 
+
+
 def send_email_core(user, pwd, recipient, subject, body):
     gmail_user = user
     gmail_pwd = pwd
@@ -58,13 +60,16 @@ def send_email(user, pwd, recipient, subject, run_id,status):
                       ])
         send_email_core(user, pwd, recipient, subject, body)    
     if subject =="Analysis is finished":
-        subject="Data archiving finished, waiting for QC report"
+        subject="Analysis is done.Please check the results on SeqUDAS website"
         body = "".join([
                        "Dear Colleagues,",
                        '\n\n',
                        "Your MiSEQ Run (",
                         run_id,
                         ")",
-                       " is completed without error and has been transferred to our archival server. The analysis pipeline has been finished.Pleae check the report at http://142.103.74.210/miseq/. If you have any question, please contact William.hsiao@bccdc.ca."
+                       " is completed without error and the analysis pipeline has been finished.Please check the report at http://142.103.74.210/miseq/. If you have any question, please contact William.hsiao@bccdc.ca."
                       ])
         send_email_core(user, pwd, recipient, subject, body)
+
+
+

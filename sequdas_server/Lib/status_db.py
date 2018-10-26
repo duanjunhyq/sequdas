@@ -2,6 +2,7 @@ import MySQLdb
 import time
 from Lib.core import *
 
+
 s_config=sequdas_config()
 mysql_host=s_config['mysql_account']['mysql_host']
 mysql_user=s_config['mysql_account']['mysql_user']

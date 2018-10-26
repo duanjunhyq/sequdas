@@ -5,18 +5,19 @@ import getopt
 import ConfigParser
 import shutil
 import sys
-
+from validate_email import validate_email
 
 def run_parameter(argv):
     inputfile = ''
     outfile=''
     run_style="False"
     keep_kraken="False"
+    keep_kaiju="False"
     run_uploader="False"
     sequdas_id=""
     send_email_switch="False"
     try:
-        opts, args = getopt.getopt(argv,"hi:o:s:tkneu:",["help", "in_dir=","out_dir="])
+        opts, args = getopt.getopt(argv,"hi:o:s:tkxneu:",["help", "in_dir=","out_dir="])
     except getopt.GetoptError:   	  
         usage()      
         sys.exit(2)
@@ -36,6 +37,8 @@ def run_parameter(argv):
             run_style = "True"
         elif opt =='-k':
             keep_kraken = "True"
+        elif opt =='-x':
+            keep_kaiju = "True"
         elif opt =='-n':
             run_uploader = "True"
         elif opt =='-e':
@@ -45,7 +48,7 @@ def run_parameter(argv):
     if len(inputfile)<1 or len(outfile)<1:
         usage()      
         sys.exit(2)
-    return (inputfile, outfile,step,run_style,keep_kraken,run_uploader,sequdas_id,send_email_switch)
+    return (inputfile, outfile,step,run_style,keep_kraken,keep_kaiju,run_uploader,sequdas_id,send_email_switch)
         
 def usage():
     usage = """
@@ -59,11 +62,12 @@ def usage():
        step 2: Run FastQC
        step 3: Run MultiQC
        step 4: Run Kraken
-       step 5: Run IRIDA uploader
+       step 5: Run Kaiju
+       step 6: Run IRIDA uploader
     -u Sequdas id
     -e
        False: won't send email (default)
-       True: end email.    
+       True: send email.    
     -n
        False: won't run the IRIDA uploader (default)
        True: run IRIDA uploader.
@@ -71,8 +75,12 @@ def usage():
        False: only on step (default)
        True: run current step and the followings.
     -k
-       False: won't keep the Kraken result (default)
-       True: keep the Kraken result
+       False: won't keep the Kraken intermediate result (default)
+       True: keep the Kraken intermediate result
+    -x
+       False: won't keep the Kaiju intermediate result (default)
+       True: keep the Kaiju intermediate result
+       
     """
     print(usage)
 
@@ -103,7 +111,7 @@ def copy_reporter(out_dir,run_folder_name):
     s_config=sequdas_config()
     ssh_host_report=s_config['reporter']['reporter_ssh_host']
     QC_img_dir=s_config['reporter']['qc_dir']
-    rsynccmd = 'rsync -trvh -O '+ out_dir+"/"+run_folder_name +' '+ssh_host_report+':' + QC_img_dir
+    rsynccmd = 'rsync -trvh --chmod=Du=rwx,Dog=rx,Fu=rwx,Fgo=rx -O '+ out_dir+"/"+run_folder_name +' '+ssh_host_report+':' + QC_img_dir
     rsyncproc = subprocess.call(rsynccmd,shell=True)
     return rsyncproc
 
@@ -113,6 +121,14 @@ def str2bool(v):
         return True
     elif v.lower() in ('no', 'false', 'f', 'n', '0'):
         return False
+
+def validate_email_address(email): 
+    is_valid = validate_email(email)
+    #match=re.search(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]*\.*[ca|com|org|edu]{3}$)",email)
+    if is_valid:
+        return 'Valid'
+    else:
+        return 'Invalid'
 
 def check_path_with_slash(folder):
     if not folder.endswith("/"):
